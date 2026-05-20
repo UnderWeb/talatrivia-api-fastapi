@@ -1,0 +1,114 @@
+[tool.poetry]
+name = "talatrivia-api-fastapi"
+version = "0.1.0"
+description = "TalaTrivia API built with FastAPI"
+authors = ["Ricardo Palma <ricardo.palma.pangui@gmail.com>"]
+license = "MIT"
+readme = "README.md"
+package-mode = false
+
+# ======================================================================
+# MAIN DEPENDENCIES
+# ======================================================================
+[tool.poetry.dependencies]
+python = ">=3.10,<4.0"
+
+# --- FastAPI ---
+fastapi = "^0.136.1"
+uvicorn = {extras = ["standard"], version = "^0.41.0"}
+
+# --- Configuration ---
+pydantic = ">=2.12.5,<3.0.0"
+pydantic-settings = "^2.14.1"
+email-validator = "^2.3.0"
+
+# --- Database ---
+sqlalchemy = "^2.0.49"
+alembic = "^1.18.4"
+psycopg = { version = ">=3.3.2,<4.0.0", extras = ["binary"] }
+
+# --- Authentication / Security ---
+python-jose = { extras = ["cryptography"], version = "^3.5.0" }
+passlib = { extras = ["argon2"], version = "^1.7.4" }
+argon2-cffi = "^23.1.0"
+
+
+# ======================================================================
+# DEVELOPMENT DEPENDENCIES
+# ======================================================================
+[tool.poetry.group.dev.dependencies]
+# --- Testing ---
+pytest = "^9.0.2"
+pytest-asyncio = "^1.3.0"
+pytest-cov = "^7.1.0"
+factory-boy = "^3.3.3"
+
+# --- Code quality ---
+ruff = "^0.15.12"
+mypy = "^1.19.0"
+
+
+# ======================================================================
+# PYTEST
+# ======================================================================
+
+[tool.pytest.ini_options]
+filterwarnings = [
+    "ignore:Accessing argon2.__version__ is deprecated:DeprecationWarning",
+]
+
+
+# ======================================================================
+# RUFF
+# ======================================================================
+
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+
+exclude = [
+    ".git",
+    "__pycache__",
+    ".venv",
+    "venv",
+    "alembic/versions",
+]
+
+[tool.ruff.lint]
+select = [
+    "E",
+    "W",
+    "F",
+    "I",
+    "UP",
+]
+
+ignore = []
+
+[tool.ruff.lint.isort]
+known-first-party = ["app"]
+
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = ["F401"]
+
+
+# ======================================================================
+# MYPY
+# ======================================================================
+
+[tool.mypy]
+python_version = "3.10"
+ignore_missing_imports = true
+warn_unused_configs = true
+warn_unused_ignores = true
+disallow_untyped_defs = true
+exclude = '(\.git|\.venv|__pycache__|venv|tests)'
+
+
+# ======================================================================
+# BUILD SYSTEM
+# ======================================================================
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
